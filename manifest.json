@@ -5,6 +5,13 @@
 	"action": {
     "default_popup": "popup.html"
 	},
+  "permissions": [
+    "tabs",
+    "tabGroups"
+  ],
+  "host_permissions": [
+    "https://developer.chrome.com/*"
+  ],
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
