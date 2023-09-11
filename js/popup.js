@@ -1,9 +1,13 @@
 const tabs = await chrome.tabs.query({});
 console.log(tabs);
-
 const collator = new Intl.Collator();
 tabs.sort((a, b) => collator.compare(a.title, b.title));
 
+chrome.commands.onCommand.addListener((command) => {
+  console.log(`Command "${command}" triggered`);
+});
+
+// add tabs to list of grouped tabs
 const template = document.getElementById("li_template");
 const elements = new Set();
 for (const tab of tabs) {
@@ -22,12 +26,12 @@ for (const tab of tabs) {
 
   elements.add(element);
 }
-document.querySelector("ul").append(...elements);
+document.getElementById("tab_list").append(...elements);
 
-const button = document.querySelector("button");
-button.addEventListener("click", async () => {
+// create a groups called DOCS, and add all tabs to it
+const groupTabsButton = document.querySelector("button");
+groupTabsButton.addEventListener("click", async () => {
   const tabIds = tabs.map(({ id }) => id);
   const group = await chrome.tabs.group({ tabIds });
   await chrome.tabGroups.update(group, { title: "DOCS" });
 });
-
